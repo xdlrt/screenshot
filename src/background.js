@@ -34,7 +34,7 @@ chrome.browserAction.onClicked.addListener(function (tab) {
       ctx.fillText(text, width / 2, height - 70);
       ctx.fillText('本水印由 @自动截图水印 添加', width / 2, height - 30);
       var link = document.createElement('a');
-      link.download = '打投' + dateFormat() + '.png';
+      link.download = '打投' + dateFormat() + '.jpg';
       link.href = canvas.toDataURL();
       link.click();
     };
