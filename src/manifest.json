@@ -1,0 +1,37 @@
+{
+  "manifest_version": 2,
+  "name": "screenshot",
+  "version": "0.0.1",
+  "description": "截图并添加水印",
+  "icons": {
+    "16": "images/icon.png",
+    "48": "images/icon.png",
+    "128": "images/icon.png"
+  },
+  "background": {
+    "persistent": false,
+    "scripts": [
+      "background.js"
+    ]
+  },
+  "options_page": "options.html",
+  "browser_action": {
+    "default_icon": "images/icon.png",
+    "default_title": "截图"
+  },
+  "commands": {
+    "_execute_browser_action": {
+      "suggested_key": {
+        "windows": "Alt+Z",
+        "mac": "Alt+Z"
+      }
+    }
+  },
+  "permissions": [
+    "tabs",
+    "activeTab",
+    "<all_urls>",
+    "storage"
+  ],
+  "homepage_url": "https://github.com/xdlrt"
+}
