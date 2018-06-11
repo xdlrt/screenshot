@@ -1,7 +1,15 @@
 import { dateFormat } from './utils';
 
 chrome.browserAction.onClicked.addListener(function (tab) {
+
+  var name = '打投';
   var text = '';
+
+  chrome.tabs.sendMessage(tab.id, {}, function (response) {
+    if (response && response !== '周洁纯') {
+      name = response;
+    }
+  });
 
   chrome.storage.sync.get('xscreenshotConfig', (res) => {
     if (res.xscreenshotConfig && res.xscreenshotConfig.text) {
@@ -32,12 +40,13 @@ chrome.browserAction.onClicked.addListener(function (tab) {
       ctx.fillStyle = '#87CEFF';
       ctx.fillText(new Date(), width / 2, height - 110);
       ctx.fillText(text, width / 2, height - 70);
-      ctx.fillText('本水印由 @自动截图水印 添加', width / 2, height - 30);
+      ctx.fillText('本水印由 @自动截图水印-101定制版 添加', width / 2, height - 30);
       var link = document.createElement('a');
-      link.download = '打投' + dateFormat() + '.jpg';
+      link.download = name + dateFormat() + '.jpg';
       link.href = canvas.toDataURL();
       link.click();
     };
     image.src = img;
   });
+
 });

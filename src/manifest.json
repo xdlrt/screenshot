@@ -19,6 +19,16 @@
     "default_icon": "images/icon.png",
     "default_title": "截图"
   },
+  "content_scripts": [
+    {
+      "matches": [
+        "<all_urls>"
+      ],
+      "js": [
+        "content.js"
+      ]
+    }
+  ],
   "commands": {
     "_execute_browser_action": {
       "suggested_key": {
