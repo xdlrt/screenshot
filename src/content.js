@@ -31,6 +31,9 @@ chrome.runtime.onMessage.addListener((request, sender, sendResponse) => {
       }, 500);
     }, 500);
   }
+  else {
+    sendResponse(res);
+  }
   /*
     https://stackoverflow.com/questions/20077487/chrome-extension-message-passing-response-not-sent
     This function becomes invalid when the event listener returns, unless you return true from the event listener to indicate you wish to send a response asynchronously (this will keep the message channel open to the other end until sendResponse is called).

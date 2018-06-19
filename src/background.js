@@ -3,19 +3,17 @@ import { dateFormat, runTaskQueue } from './utils';
 chrome.browserAction.onClicked.addListener((tab) => {
   // 获取配置
   chrome.storage.sync.get('xscreenshotConfig', res => {
-    let waterText = '';
+    // 默认数据
     if (!res.xscreenshotConfig) {
       res.xscreenshotConfig = {
-        list: ['刘人语']
+        list: ['刘人语'],
+        shotDelay: 1500
       };
     };
-    const { text, list = [] } = res.xscreenshotConfig;
-    if (text) {
-      waterText = text;
-    }
-    else {
-      waterText = '右键点击插件，进入”选项“中设置水印文字';
-    }
+    const { text, list = [], delay } = res.xscreenshotConfig;
+    const waterText = text ? text : '右键点击插件，进入”选项“中设置水印文字';
+    const shotDelay = parseInt(delay) < 1500 ? 1500 : parseInt(delay);
+
     const taskQueue = list.map(item => {
       if (!item) {
         return (next) => { next() }
@@ -24,30 +22,31 @@ chrome.browserAction.onClicked.addListener((tab) => {
         const options = {
           tab,
           filenamePrefix: item,
-          waterText
+          waterText,
+          shotDelay
         }
         setTimeout(() => {
           task(options, next);
         }, 1500);
       };
     });
+
     runTaskQueue(taskQueue);
   });
 });
 
 function task(options, next) {
-  const { tab, filenamePrefix } = options;
+  const { tab, filenamePrefix, shotDelay } = options;
   chrome.tabs.sendMessage(tab.id, { name: filenamePrefix }, (res) => {
-    if (res.success) {
+    if (res && res.success) {
       setTimeout(() => {
-        takeScreenShot(options);
-      }, 500);
-      next();
+        takeScreenShot(options, next);
+      }, shotDelay - 1000);
     }
   });
 }
 
-function takeScreenShot(options) {
+function takeScreenShot(options, next) {
   const { tab, filenamePrefix, waterText } = options;
   const canvas = document.createElement('canvas');
   chrome.tabs.captureVisibleTab(null, {
@@ -74,6 +73,7 @@ function takeScreenShot(options) {
       link.download = filenamePrefix + dateFormat() + '.jpg';
       link.href = canvas.toDataURL();
       link.click();
+      next();
     };
     image.src = img;
   });

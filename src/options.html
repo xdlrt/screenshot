@@ -59,6 +59,11 @@
       font-size: 28px;
     }
 
+    .content label {
+      display: block;
+      margin-top: 12px;
+    }
+
     .content input {
       margin: 0 20px;
       padding: 5px 10px;
@@ -71,9 +76,9 @@
     }
 
     .content button {
+      margin-top: 12px;
       width: 100px;
       height: 40px;
-      vertical-align: middle;
       border: 1px solid #B0B0B0;
       cursor: pointer;
     }
@@ -119,6 +124,9 @@
   <div class="content">
     <label>设置截图水印文字:
       <input id="text" type="text">
+    </label>
+    <label>设置点赞截图时延(默认1500ms):
+      <input id="delay" type="number">
     </label>
     <button id="save">保存</button>
     <div class="list">
