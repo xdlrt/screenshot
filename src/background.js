@@ -4,7 +4,11 @@ chrome.browserAction.onClicked.addListener((tab) => {
   // 获取配置
   chrome.storage.sync.get('xscreenshotConfig', res => {
     let waterText = '';
-    if (!res.xscreenshotConfig) return;
+    if (!res.xscreenshotConfig) {
+      res.xscreenshotConfig = {
+        list: ['刘人语']
+      };
+    };
     const { text, list = [] } = res.xscreenshotConfig;
     if (text) {
       waterText = text;
@@ -39,7 +43,7 @@ function task(options, next) {
         takeScreenShot(options);
       }, 500);
       next();
-    } 
+    }
   });
 }
 
@@ -65,7 +69,7 @@ function takeScreenShot(options) {
       ctx.fillStyle = '#87CEFF';
       ctx.fillText(new Date(), width / 2, height - 110);
       ctx.fillText(waterText, width / 2, height - 70);
-      ctx.fillText('本水印由 @自动截图水印-101定制版 添加', width / 2, height - 30);
+      ctx.fillText('本水印由 @自动截图水印-刘人语定制版 添加', width / 2, height - 30);
       const link = document.createElement('a');
       link.download = filenamePrefix + dateFormat() + '.jpg';
       link.href = canvas.toDataURL();

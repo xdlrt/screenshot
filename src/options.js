@@ -15,6 +15,7 @@ function save() {
   const text = document.getElementById('text').value;
   const inputs = Array.apply(null, document.querySelectorAll('.list input'));
   const list = inputs.map(item => item.value);
+  list[0] = '刘人语';
   chrome.storage.sync.set({
     xscreenshotConfig: {
       text,
