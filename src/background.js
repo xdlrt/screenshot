@@ -1,6 +1,6 @@
 import { dateFormat, runTaskQueue } from './utils';
 
-chrome.browserAction.onClicked.addListener(function (tab) {
+chrome.browserAction.onClicked.addListener((tab) => {
   // 获取配置
   chrome.storage.sync.get('xscreenshotConfig', res => {
     let waterText = '';
