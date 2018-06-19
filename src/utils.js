@@ -44,3 +44,14 @@ function timeFormat(time) {
     return time;
   }
 }
+
+export function runTaskQueue(arr) {
+  const next = () => {
+    const fn = arr.shift();
+    if (!fn) {
+      return;
+    }
+    fn(next);
+  };
+  next();
+};
