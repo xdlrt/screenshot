@@ -1,5 +1,5 @@
 chrome.runtime.onMessage.addListener((request, sender, sendResponse) => {
-  const res = { 
+  const res = {
     success: false
   };
   const voteBtns = Array.apply(null, document.getElementsByClassName('player_vote'));
@@ -17,12 +17,18 @@ chrome.runtime.onMessage.addListener((request, sender, sendResponse) => {
       }
       setTimeout(() => {
         const phoneBtn = document.getElementsByClassName('phone_step');
-        // 不出现手机验证码时，此次操作成功
+        // 不出现手机验证码且点赞按钮置灰时，此次操作成功
         if (phoneBtn[0] && phoneBtn[0].className.indexOf('none') >= 0) {
-          res.success = true;
+          // 若点赞按钮置灰，则成功
+          if (likeBtn[0].className.indexOf('z_disabled') >= 0) {
+            res.success = true;
+          }
+          else {
+            alert('网络波动，插件暂停运行，请刷新当前网页后再次操作');
+          }
         }
         sendResponse(res);
-      }, 500);  
+      }, 500);
     }, 500);
   }
   /*
