@@ -1,19 +1,27 @@
-var saveBtn = document.getElementById('save');
+const saveBtn = document.getElementById('save');
 
 chrome.storage.sync.get('xscreenshotConfig', (res) => {
   if (res.xscreenshotConfig) {
     document.getElementById('text').value = res.xscreenshotConfig.text || '';
+    const list = res.xscreenshotConfig.list || [];
+    const inputs = Array.apply(null, document.querySelectorAll('.list input'));
+    for (let i = 0; i < list.length; i++) {
+      inputs[i].value = list[i];
+    }
   }
 });
 
 function save() {
-  var text = document.getElementById('text').value;
+  const text = document.getElementById('text').value;
+  const inputs = Array.apply(null, document.querySelectorAll('.list input'));
+  const list = inputs.map(item => item.value);
   chrome.storage.sync.set({
     xscreenshotConfig: {
-      text
+      text,
+      list
     }
   }, function () {
-    alert('设置截图水印文字成功');
+    alert('保存成功');
   });
 }
 
